@@ -13,3 +13,8 @@ Version 0.6.0 for current experiment
 
 ## 2. Startup code
 Reference: page 39 - 42 of http://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-21.pdf 
+
+## 3. Issues:
+
+* bokeh can't visualize issue : children not iterate
+* pg.PGAgent with multiagent-env can't work
