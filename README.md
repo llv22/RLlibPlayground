@@ -7,7 +7,8 @@ Reference: https://ray.readthedocs.io/en/master/rllib.html#installation
 pip install 'ray[rllib]'
 # debugging purpose
 pip install setproctitle
-pip install bokeh
+# bokeh 1.0.0 is incompatiable version
+pip install bokeh==0.13.0
 ```
 Version 0.6.0 for current experiment
 

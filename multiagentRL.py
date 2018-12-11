@@ -23,13 +23,43 @@
 #     version: 3.6.7
 # ---
 
+# ## Multi-Agent RL
+#
+# Don't find **MultiAgentTrafficEnv**, **car_obs_space**, **car_act_space** and **tl_obs_space**, **tl_act_space**
+# **Status** : Not working now
+
 import ray
-import ray.rllib.agents.ppo as ppo
+# check in https://github.com/ray-project/ray/blob/master/python/ray/rllib/test/test_nested_spaces.py
+from ray.rllib.agents import pg
+from ray.rllib.agents.pg.pg_policy_graph import PGPolicyGraph
 from ray.tune.logger import pretty_print
 
 ray.init()
 
+# +
+# Example: using a multi-agent env
 env = MultiAgentTrafficEnv(num_cars=20, num_traffic_lights=5)
+
+# Observations are a dict mapping agent names to their obs. Not all agents
+# may be present in the dict in each time step.
+print(env.reset())
+# {
+#     "car_1": [[...]],
+#     "car_2": [[...]],
+#     "traffic_light_1": [[...]],
+# }
+
+# Actions should be provided for each agent that returned an observation.
+new_obs, rewards, dones, infos = env.step(actions={"car_1": ..., "car_2": ...})
+
+# Similarly, new_obs, rewards, dones, etc. also become dicts
+print(rewards)
+# {"car_1": 3, "car_2": -1, "traffic_light_1": 0}
+
+# Individual agents can early exit; env is done when "__all__" = True
+print(dones)
+# {"car_2": True, "__all__": False}
+# -
 
 # https://rise.cs.berkeley.edu/blog/scaling-multi-agent-rl-with-rllib/
 # https://ray.readthedocs.io/en/latest/rllib-env.html?highlight=%27PGAgent%27
